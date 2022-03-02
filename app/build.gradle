@@ -1,19 +1,21 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.ferechamitbeyli.loginactivity"
-        minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        applicationId AppConfig.application_id
+        minSdk AppConfig.min_sdk
+        targetSdk AppConfig.target_sdk
+        versionCode AppConfig.version_code
+        versionName AppConfig.version_name
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner AppConfig.test_instrumentation_runner
     }
 
     buildTypes {
@@ -23,20 +25,28 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility AppConfig.java_version
+        targetCompatibility AppConfig.java_version
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = AppConfig.jvm_target
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation AndroidX.core_ktx
+    implementation AndroidX.appcompat
+    implementation Google.material
+
+    implementation DaggerHilt.hilt_android
+    kapt DaggerHilt.hilt_compiler
+
+    implementation Room.room_runtime
+    kapt Room.room_compiler
+
+
+    testImplementation TestSuites.junit
+    androidTestImplementation TestSuites.androidx_text_junit
+    androidTestImplementation TestSuites.androidx_text_espresso_core
 }
