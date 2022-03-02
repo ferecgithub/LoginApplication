@@ -45,6 +45,9 @@ dependencies {
     implementation Room.room_runtime
     kapt Room.room_compiler
 
+    implementation DataStore.preferences
+
+    implementation Timber.timber
 
     testImplementation TestSuites.junit
     androidTestImplementation TestSuites.androidx_text_junit

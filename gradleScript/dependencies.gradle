@@ -63,6 +63,20 @@ ext {
             room_compiler: "androidx.room:room-compiler:${room}"
     ]
 
+    // Preferences DataStore
+    dataStore = "1.0.0"
+
+    DataStore = [
+            preferences: "androidx.datastore:datastore-preferences:${dataStore}"
+    ]
+
+    // Timber
+    timber_version = "5.0.1"
+
+    Timber = [
+            timber: "com.jakewharton.timber:timber:${timber_version}"
+    ]
+
     // Test Suites
     junit = '4.13.2'
     androidx_text_junit = '1.1.3'
