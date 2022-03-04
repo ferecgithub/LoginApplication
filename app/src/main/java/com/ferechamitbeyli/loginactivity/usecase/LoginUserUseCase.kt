@@ -11,17 +11,18 @@ class LoginUserUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(email: String, password: String): Result {
         Timber.d("invoke: $email")
-        return try {
+        try {
             val userDto = getUserByEmailUseCase(email)
             if (userDto.password != password) {
-                Timber.d("LoginUserUseCase : Failed, passwords do not matched.")
-                Result.Failure
+                Timber.e("LoginUserUseCase : Failed, passwords do not matched.")
+                return Result.Failure
             }
             addLoggedInEmailToCacheUseCase(email)
-            Result.Success
+            Timber.d("Success!")
+            return Result.Success
         } catch (e: Exception) {
-            Timber.d("LoginUserUseCase : Failed, Exception : ${e.message}")
-            Result.Failure
+            Timber.e("LoginUserUseCase : Failed, Exception : ${e.message}")
+            return Result.Failure
         }
     }
 }

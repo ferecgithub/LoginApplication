@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.auth.LoginFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_8">
+
+                <TextView
+                    android:id="@+id/loginFragment_textView_titleLogi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/loginFragment_title_logi"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="?attr/colorOnSecondary"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toTopOf="@+id/loginFragment_textView_loginTitle"
+                    app:layout_constraintEnd_toStartOf="@id/loginFragment_textView_titleViti"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/loginFragment_textView_titleViti"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/loginFragment_title_viti"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="?attr/colorSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/loginFragment_textView_titleLogi"
+                    app:layout_constraintTop_toTopOf="@+id/loginFragment_textView_titleLogi" />
+
+                <TextView
+                    android:id="@+id/loginFragment_textView_loginTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="@dimen/dp_4"
+                    android:text="@string/loginFragment_login_title"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@id/loginFragment_textView_loginSubtitle"
+                    />
+
+
+                <TextView
+                    android:id="@+id/loginFragment_textView_loginSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:text="@string/loginFragment_login_subtitle"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintBottom_toTopOf="@id/loginFragment_textInputLayout_email"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/loginFragment_textInputLayout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:hint="@string/loginFragment_email_hint"
+                    app:layout_constraintBottom_toTopOf="@id/loginFragment_textInputLayout_password"
+                    app:startIconDrawable="@drawable/ic_account">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/loginFragment_textInputEditText_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/loginFragment_textInputLayout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:hint="@string/loginFragment_password_hint"
+                    app:layout_constraintBottom_toTopOf="@id/loginFragment_textView_forgotPassword"
+                    app:startIconDrawable="@drawable/ic_lock">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/loginFragment_textInputEditText_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/loginFragment_textView_forgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="48dp"
+                    android:text="@string/loginFragment_forgot_password"
+                    android:textColor="?attr/colorSecondary"
+                    app:layout_constraintBottom_toTopOf="@id/loginFragment_button_login"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <Button
+                    android:id="@+id/loginFragment_button_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:backgroundTint="?attr/colorAccent"
+                    android:text="@string/loginFragment_sign_in"
+                    app:layout_constraintBottom_toTopOf="@+id/loginFragment_button_signUp"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <Button
+                    android:id="@+id/loginFragment_button_signUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:text="@string/loginFragment_sign_up"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:gravity="center"
+            android:text="@string/powered_by_ferec"
+            android:textColor="?attr/colorPrimaryVariant" />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
