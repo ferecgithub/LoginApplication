@@ -5,12 +5,11 @@ import com.ferechamitbeyli.loginactivity.utils.Constants.DATASTORE_LOGGED_IN_EMA
 import timber.log.Timber
 import javax.inject.Inject
 
-open class AddLoggedInEmailToCacheUseCase @Inject constructor(
+class LogOutUseCase @Inject constructor(
     private val dataStoreManager: DataStoreManager
 ) {
-
-    open suspend operator fun invoke(email: String) {
-        Timber.d("invoke: $email")
-        dataStoreManager.addToCache(DATASTORE_LOGGED_IN_EMAIL_KEY, email)
+    suspend operator fun invoke() {
+        Timber.d("Logging out by removing cache")
+        dataStoreManager.removeFromDataStore(DATASTORE_LOGGED_IN_EMAIL_KEY)
     }
 }

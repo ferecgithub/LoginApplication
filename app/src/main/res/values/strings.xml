@@ -17,6 +17,8 @@
     <string name="loginFragment_invalid_email">Invalid email</string>
     <string name="loginFragment_invalid_password">Invalid password</string>
     <string name="loginFragment_login_failed">Login failed!</string>
+    <string name="loginFragment_register_failed">Register failed!</string>
+    <string name="loginFragment_restorePass_failed">Restoring password failed!</string>
     <string name="loginFragment_register_success">Register success!</string>
     <string name="forgotPassBottomSheet_button_submit">Submit</string>
     <string name="loginFragment_your_pass_is">Your password is: %1$s</string>
@@ -24,5 +26,7 @@
     <string name="homeFragment_title">Logged in!</string>
     <string name="homeFragment_menuItem_logOut">Log out</string>
     <string name="homeFragment_menuItem_logOut_description">Log out icon</string>
+
+    <string name="homeFragment_welcome">Welcome %1$s!</string>
 
 </resources>

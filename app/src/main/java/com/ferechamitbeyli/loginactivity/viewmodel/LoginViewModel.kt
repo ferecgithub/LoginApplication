@@ -2,14 +2,12 @@ package com.ferechamitbeyli.loginactivity.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ferechamitbeyli.loginactivity.usecase.CheckIfUserExistsUseCase
-import com.ferechamitbeyli.loginactivity.usecase.GetUserByEmailUseCase
-import com.ferechamitbeyli.loginactivity.usecase.LoginUserUseCase
-import com.ferechamitbeyli.loginactivity.usecase.RegisterUserUseCase
+import com.ferechamitbeyli.loginactivity.ui.auth.states.LoginErrorState
 import com.ferechamitbeyli.loginactivity.utils.Result
 import com.ferechamitbeyli.loginactivity.utils.isValidEmail
 import com.ferechamitbeyli.loginactivity.utils.isValidPassword
 import com.ferechamitbeyli.loginactivity.ui.auth.states.LoginState
+import com.ferechamitbeyli.loginactivity.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +21,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUserUseCase: LoginUserUseCase,
     private val registerUserUseCase: RegisterUserUseCase,
-    private val checkIfUserExistsUseCase: CheckIfUserExistsUseCase,
-    private val getUserByEmailUseCase: GetUserByEmailUseCase,
+    private val getForgottenPasswordUseCase: GetForgottenPasswordUseCase
 ) : ViewModel() {
 
     private val _bottomSheetShow = MutableSharedFlow<Unit>()
@@ -39,7 +36,7 @@ class LoginViewModel @Inject constructor(
     private val _navigateToApp = MutableSharedFlow<Unit>()
     val navigateToApp = _navigateToApp.asSharedFlow()
 
-    private val _error = MutableSharedFlow<Unit>()
+    private val _error = MutableSharedFlow<LoginErrorState>()
     val error = _error.asSharedFlow()
 
     private val _state = MutableStateFlow(LoginState())
@@ -55,7 +52,7 @@ class LoginViewModel @Inject constructor(
             viewModelScope.launch {
                 when (loginUserUseCase(email, password)) {
                     Result.Failure -> {
-                        _error.emit(Unit)
+                        _error.emit(LoginErrorState.LOGIN)
                     }
                     Result.Success -> _navigateToApp.emit(Unit)
                 }
@@ -69,9 +66,12 @@ class LoginViewModel @Inject constructor(
             viewModelScope.launch {
                 when (registerUserUseCase(email, password)) {
                     Result.Failure -> {
-                        _error.emit(Unit)
+                        _error.emit(LoginErrorState.SIGNUP)
                     }
-                    Result.Success -> _registerSuccess.emit(Unit)
+                    Result.Success -> {
+                        loginUserUseCase(email, password)
+                        _registerSuccess.emit(Unit)
+                    }
                 }
             }
         }
@@ -87,14 +87,11 @@ class LoginViewModel @Inject constructor(
     fun restorePassword(email: String) {
         Timber.d("Restoring pass of $email")
         viewModelScope.launch {
-            try {
-                if (checkIfUserExistsUseCase(email)) {
-                    val userDto = getUserByEmailUseCase(email)
-                    _forgotPassGetUserSuccess.emit(userDto.password)
-                }
-            } catch (e: Exception) {
-                Timber.d("Error in restorePassword(), ${e.message}")
-                _error.emit(Unit)
+            when (val result = getForgottenPasswordUseCase(email)) {
+                is GetForgottenPasswordUseCase.Result.Success -> _forgotPassGetUserSuccess.emit(
+                    result.password
+                )
+                is GetForgottenPasswordUseCase.Result.Failure -> _error.emit(LoginErrorState.FORGOT_PASSWORD)
             }
 
         }
@@ -110,5 +107,11 @@ class LoginViewModel @Inject constructor(
         )
 
         return isEmailValid && isPasswordValid
+    }
+
+    fun onRegistrationSnackBarDismissed() {
+        viewModelScope.launch {
+            _navigateToApp.emit(Unit)
+        }
     }
 }

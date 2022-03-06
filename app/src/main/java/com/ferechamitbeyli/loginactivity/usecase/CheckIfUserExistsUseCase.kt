@@ -4,10 +4,10 @@ import com.ferechamitbeyli.loginactivity.model.db.dao.UserDao
 import timber.log.Timber
 import javax.inject.Inject
 
-class CheckIfUserExistsUseCase @Inject constructor(
+open class CheckIfUserExistsUseCase @Inject constructor(
     private val userDao: UserDao
 ) {
-    suspend operator fun invoke(email: String): Boolean {
+    open suspend operator fun invoke(email: String): Boolean {
         Timber.d("invoke!")
         return userDao.checkIfUserExists(email)
     }

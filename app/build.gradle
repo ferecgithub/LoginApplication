@@ -68,6 +68,12 @@ dependencies {
     implementation SlashScreenAPI.core_splashscreen
 
     testImplementation TestSuites.junit
+    testImplementation TestSuites.arch_core_executor_testing
+    testImplementation TestSuites.kotlin_coroutines_test
+    testImplementation TestSuites.mockito_core
+    testImplementation TestSuites.turbine
+
+
     androidTestImplementation TestSuites.androidx_text_junit
     androidTestImplementation TestSuites.androidx_text_espresso_core
 }

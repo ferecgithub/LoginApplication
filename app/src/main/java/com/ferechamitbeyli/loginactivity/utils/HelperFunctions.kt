@@ -1,12 +1,12 @@
 package com.ferechamitbeyli.loginactivity.utils
 
 import android.content.Context
-import android.util.Patterns
 import androidx.annotation.AttrRes
 import androidx.core.content.res.getColorOrThrow
 import androidx.core.content.withStyledAttributes
+import androidx.core.util.PatternsCompat
 
-fun String.isValidEmail(): Boolean = !isEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+fun String.isValidEmail(): Boolean = !isEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
 fun String.isValidPassword(): Boolean = !isEmpty() && this.length > 7
 

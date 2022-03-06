@@ -5,11 +5,11 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.Exception
 
-class LoginUserUseCase @Inject constructor(
+open class LoginUserUseCase @Inject constructor(
     private val getUserByEmailUseCase: GetUserByEmailUseCase,
     private val addLoggedInEmailToCacheUseCase: AddLoggedInEmailToCacheUseCase
 ) {
-    suspend operator fun invoke(email: String, password: String): Result {
+    open suspend operator fun invoke(email: String, password: String): Result {
         Timber.d("invoke: $email")
         try {
             val userDto = getUserByEmailUseCase(email)

@@ -7,6 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import com.ferechamitbeyli.loginactivity.utils.Constants.DATASTORE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
@@ -20,4 +22,18 @@ class DataStoreManager @Inject constructor(
             data[key] = value
         }
     }
+
+    suspend fun removeFromDataStore(key: Preferences.Key<String>) {
+        context.dataStore.edit { data ->
+            data.remove(key)
+        }
+    }
+
+    fun fetchKeyValue(key: Preferences.Key<String>): Flow<String?> {
+        return context.dataStore.data.map { preferences ->
+            preferences[key]
+        }
+    }
+
+
 }

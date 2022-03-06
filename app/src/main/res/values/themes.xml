@@ -9,9 +9,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorOnSurface">@color/gray</item>
+        <item name="colorError">@color/color_warning</item>
 
         <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
+        </item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.App.LargeComponent</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

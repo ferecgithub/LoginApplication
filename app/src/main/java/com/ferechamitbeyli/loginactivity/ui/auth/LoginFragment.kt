@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.ferechamitbeyli.loginactivity.R
 import com.ferechamitbeyli.loginactivity.databinding.ForgotPassBottomSheetDialogBinding
 import com.ferechamitbeyli.loginactivity.databinding.FragmentLoginBinding
+import com.ferechamitbeyli.loginactivity.ui.auth.states.LoginErrorState
 import com.ferechamitbeyli.loginactivity.utils.getColorByAttribute
 import com.ferechamitbeyli.loginactivity.viewmodel.LoginViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -75,9 +77,19 @@ class LoginFragment : Fragment() {
             }.launchIn(this)
 
             viewModel.error.onEach {
-                Timber.d("Error!")
+                Timber.d("Error! : $it")
                 showSnackbar(
-                    resources.getString(R.string.loginFragment_login_failed),
+                    when (it) {
+                        LoginErrorState.LOGIN -> {
+                            resources.getString(R.string.loginFragment_login_failed)
+                        }
+                        LoginErrorState.SIGNUP -> {
+                            resources.getString(R.string.loginFragment_register_failed)
+                        }
+                        LoginErrorState.FORGOT_PASSWORD -> {
+                            resources.getString(R.string.loginFragment_restorePass_failed)
+                        }
+                    },
                     requireContext().getColorByAttribute(androidx.appcompat.R.attr.colorError)
                 )
             }.launchIn(this)
@@ -86,7 +98,13 @@ class LoginFragment : Fragment() {
                 Timber.d("Register success!")
                 showSnackbar(
                     resources.getString(R.string.loginFragment_register_success),
-                    requireContext().getColorByAttribute(androidx.appcompat.R.attr.colorPrimary)
+                    requireContext().getColorByAttribute(androidx.appcompat.R.attr.colorPrimary),
+                    object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            viewModel.onRegistrationSnackBarDismissed()
+                        }
+                    }
                 )
             }.launchIn(this)
 
@@ -110,15 +128,23 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun showSnackbar(message: String, backgroundTint: Int) {
-        Snackbar.make(
+    private fun showSnackbar(
+        message: String,
+        backgroundTint: Int,
+        callback: BaseTransientBottomBar.BaseCallback<Snackbar>? = null
+    ) {
+        val snackBar = Snackbar.make(
             requireContext(),
             binding.root,
             message,
             Snackbar.LENGTH_LONG
-        )
-            .setBackgroundTint(backgroundTint)
-            .show()
+        ).setBackgroundTint(backgroundTint)
+
+        if (callback != null) {
+            snackBar.addCallback(callback)
+        }
+
+        snackBar.show()
     }
 
     private fun showForgotPasswordBottomSheetDialog() {
